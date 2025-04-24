@@ -3,6 +3,7 @@ from collections import defaultdict
 import random
 
 def main():
+    st.set_page_config(layout="wide")  # ページ幅を広く設定
     st.title("SJポジション")
 
     st.header("📝選手情報の入力")
@@ -25,17 +26,18 @@ def main():
 
     player_prefs = {}
     coach_ranks = defaultdict(dict)
-    st.set_page_config(layout="wide")
-    st.markdown("###### 選手名｜第一希望｜第二希望｜監督希望")
+
+    st.markdown("#### 選手名｜第一希望｜第二希望｜監督希望")
     for name, first, second in player_data:
-        col1, col2, col3, col4 = st.columns([0.1, 0.1, 0.1, 0.1])  # スマホ対応レイアウト
-        with col1:
+        # スマホでも1行で収まるよう比率調整
+        cols = st.columns([2, 1, 1, 2])
+        with cols[0]:
             name_input = st.text_input("選手名", value=name, key=f"name_{name}", label_visibility="collapsed")
-        with col2:
+        with cols[1]:
             first_input = st.text_input("第一希望", value=str(first), key=f"first_{name}", label_visibility="collapsed")
-        with col3:
+        with cols[2]:
             second_input = st.text_input("第二希望", value=str(second), key=f"second_{name}", label_visibility="collapsed")
-        with col4:
+        with cols[3]:
             coach_input = st.text_input("監督希望", key=f"coach_{name}", label_visibility="collapsed")
 
         name_input = name_input.strip()
@@ -44,7 +46,7 @@ def main():
 
         if coach_input.strip():
             pos = coach_input.strip()
-            coach_ranks[pos][name_input] = 0  # 高評価をランク0に設定
+            coach_ranks[pos][name_input] = 0  # 評価がある選手はランク0（高評価）
 
     if st.button("▶️ マッチング開始"):
         matches = stable_matching_player_priority(player_prefs, coach_ranks)
@@ -85,7 +87,6 @@ def stable_matching_player_priority(player_prefs, coach_ranks):
                         break
 
         if not assigned:
-            # ランダムで空いているポジションに割当て
             for pos in matches:
                 if len(matches[pos]) < capacity[pos]:
                     matches[pos].append(player)
