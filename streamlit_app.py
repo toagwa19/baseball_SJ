@@ -3,8 +3,8 @@ from collections import defaultdict, deque
 import random
 
 def main():
-    st.title("SJポジション")
-    st.header("優先順位：選手希望->監督希望->ランダム）")
+    st.title("スタジョ守備")
+    st.header("優先順位：選手希望->監督希望->ランダム")
     st.header("📝 選手情報の入力")
     player_data = [
         ("しょうま", 2, 1),
@@ -26,9 +26,9 @@ def main():
     player_prefs = {}
     coach_ranks = defaultdict(dict)
 
-    st.markdown("### 選手名｜第一希望｜第二希望｜監督の評価ポジション")
+    st.markdown("### 選手名｜第一希望｜第二希望｜監督の希望")
     for name, first, second in player_data:
-        col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
+        col1, col2, col3, col4 = st.columns([0.5, 0.25, 0.25, 0.25])
         with col1:
             name_input = st.text_input("選手名", value=name, key=f"name_{name}")
         with col2:
