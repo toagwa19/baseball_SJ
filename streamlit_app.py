@@ -3,9 +3,9 @@ from collections import defaultdict
 import random
 
 def main():
-    st.title("###### スタジョポジション")
+    st.title("SJポジション")
 
-    st.header("###### 📝 選手情報の入力")
+    st.header("📝選手情報の入力")
     player_data = [
         ("しょうま", 2, 1),
         ("たかゆき", 1, 2),
