@@ -28,7 +28,7 @@ def main():
 
     st.markdown("#### 選手名　｜　第一希望　｜　第二希望　｜　監督の評価ポジション")
     for name, first, second in player_data:
-        col1, col2, col3, col4 = st.columns([2, 1, 1, 2])  # スマホ対応レイアウト
+        col1, col2, col3, col4 = st.columns([0.1, 0.1, 0.1, 0.1])  # スマホ対応レイアウト
         with col1:
             name_input = st.text_input("選手名", value=name, key=f"name_{name}", label_visibility="collapsed")
         with col2:
