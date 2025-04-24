@@ -36,7 +36,7 @@ def main():
         with col3:
             second_input = st.text_input("第二希望", value=str(second), key=f"second_{name}", label_visibility="collapsed")
         with col4:
-            coach_input = st.text_input("監督の評価ポジション", key=f"coach_{name}", label_visibility="collapsed")
+            coach_input = st.text_input("監督希望", key=f"coach_{name}", label_visibility="collapsed")
 
         name_input = name_input.strip()
         prefs = [first_input.strip(), second_input.strip()]
