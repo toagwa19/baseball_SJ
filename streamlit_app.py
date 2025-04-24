@@ -3,7 +3,7 @@ from collections import defaultdict, deque
 import random
 
 def main():
-    st.title("野球守備ポジション 安定マッチング")
+    st.title("スタジョポジション 安定マッチング")
     st.title("優先順位：選手希望->監督希望->ランダム）")
     st.header("📝 選手情報の入力")
     player_data = [
