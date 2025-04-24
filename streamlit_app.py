@@ -6,41 +6,59 @@ def main():
     st.title("スタジョ守備")
     st.header("優先順位：選手希望->監督希望->ランダム")
     st.header("📝 選手情報の入力")
-    player_data = [
-        ("しょうま", 2, 1),
-        ("たかゆき", 1, 2),
-        ("あきと", 1, 6),
-        ("ゆうと", 2, 3),
-        ("たくみ", 2, 1),
-        ("ひなた", 2, 4),
-        ("ようすけ", 1, 4),
-        ("ゆうま", 5, 6),
-        ("こうせい", 2, 1),
-        ("りょう", 5, 6),
-        ("そうた", 1, 8),
-        ("たいち", 1, 5),
-        ("ひろあ", 2, 1),
-        ("りんな", 1, 2)
-    ]
 
-    player_prefs = {}
-    coach_ranks = defaultdict(dict)
+　　# カスタムCSSで入力欄をコンパクトに
+　　st.markdown("""
+　　<style>
+   　　 .input-row {
+       　　 display: flex;
+       　　 flex-wrap: nowrap;
+        　　gap: 4px;
+        　　margin-bottom: 8px;
+    　　}
+    　　.input-row > div {
+       　　 flex: 1;
+    　　}
+    　　.stTextInput > div > input {
+       　　 font-size: 14px;
+        　　padding: 4px;
+    　　}
+　　</style>
+　　""", unsafe_allow_html=True)
 
-    st.markdown("### 選手名｜第一希望｜第二希望｜監督の希望")
-    for name, first, second in player_data:
-        col1, col2, col3, col4 = st.columns([0.5, 0.25, 0.25, 0.25])
-        with col1:
-            name_input = st.text_input("選手名", value=name, key=f"name_{name}")
-        with col2:
-            first_input = st.text_input("第一希望", value=str(first), key=f"first_{name}")
-        with col3:
-            second_input = st.text_input("第二希望", value=str(second), key=f"second_{name}")
-        with col4:
-            coach_input = st.text_input("監督の希望", key=f"coach_{name}")
+　　st.markdown("#### 選手名｜第一希望｜第二希望｜監督の評価ポジション")
 
-        name_input = name_input.strip()
-        prefs = [first_input.strip(), second_input.strip()]
-        player_prefs[name_input] = prefs
+　　player_data = [
+   　　 ("しょうま", 2, 1),
+    　　("たかゆき", 1, 2),
+    　　("あきと", 1, 6),
+    　　("ゆうと", 2, 3),
+    　　("たくみ", 2, 1),
+    　　("ひなた", 2, 4),
+    　　("ようすけ", 1, 4),
+    　　("ゆうま", 5, 6),
+    　　("こうせい", 2, 1),
+    　　("りょう", 5, 6),
+    　　("そうた", 1, 8),
+    　　("たいち", 1, 5),
+    　　("ひろあ", 2, 1),
+    　　("りんな", 1, 2)
+　　]
+
+　　player_prefs = {}
+　　coach_ranks = {}
+
+　　for name, first, second in player_data:
+    　　st.markdown('<div class="input-row">', unsafe_allow_html=True)
+    　　col1 = st.text_input("", value=name, key=f"name_{name}", label_visibility="collapsed", placeholder="選手名")
+    　　col2 = st.text_input("", value=str(first), key=f"first_{name}", label_visibility="collapsed", placeholder="第一希望")
+    　　col3 = st.text_input("", value=str(second), key=f"second_{name}", label_visibility="collapsed", placeholder="第二希望")
+    　　col4 = st.text_input("", key=f"coach_{name}", label_visibility="collapsed", placeholder="監督の評価")
+    　　st.markdown('</div>', unsafe_allow_html=True)
+
+　　    player_prefs[col1.strip()] = [col2.strip(), col3.strip()]
+    　　if col4.strip():
+        　　coach_ranks.setdefault(col4.strip(), {})[col1.strip()] = 0
 
         if coach_input.strip():
             pos = coach_input.strip()
