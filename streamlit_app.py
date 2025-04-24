@@ -26,7 +26,7 @@ def main():
     player_prefs = {}
     coach_ranks = defaultdict(dict)
 
-    st.markdown("#### 選手名　｜　第一希望　｜　第二希望　｜　監督の評価ポジション")
+    st.markdown("#### 選手名　｜　第一希望　｜　第二希望　｜　監督の希望")
     for name, first, second in player_data:
         col1, col2, col3, col4 = st.columns([0.1, 0.1, 0.1, 0.1])  # スマホ対応レイアウト
         with col1:
