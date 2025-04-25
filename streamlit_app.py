@@ -27,10 +27,9 @@ def main():
     player_prefs = {}
     coach_ranks = defaultdict(dict)
 
-    st.markdown("###### 選手名｜第一希望｜第二希望｜監督希望")
+    st.markdown("#### 選手名｜第一希望｜第二希望｜監督希望")
     for name, first, second in player_data:
-        # スマホでも1行で収まるよう比率調整
-        cols = st.columns([2, 1, 1, 2])
+        cols = st.columns([2, 1, 1, 1])
         with cols[0]:
             name_input = st.text_input("選手名", value=name, key=f"name_{name}", label_visibility="collapsed")
         with cols[1]:
@@ -41,12 +40,16 @@ def main():
             coach_input = st.text_input("監督希望", key=f"coach_{name}", label_visibility="collapsed")
 
         name_input = name_input.strip()
-        prefs = [first_input.strip(), second_input.strip()]
-        player_prefs[name_input] = prefs
+        first_input = first_input.strip()
+        second_input = second_input.strip()
 
-        if coach_input.strip():
-            pos = coach_input.strip()
-            coach_ranks[pos][name_input] = 0  # 評価がある選手はランク0（高評価）
+        # 🔽 マッチング対象チェック（選手名と第一希望が必須）
+        if name_input and first_input:
+            player_prefs[name_input] = [first_input, second_input]
+
+            if coach_input.strip():
+                pos = coach_input.strip()
+                coach_ranks[pos][name_input] = 0  # 評価がある選手はランク0
 
     if st.button("▶️ マッチング開始"):
         matches = stable_matching_player_priority(player_prefs, coach_ranks)
