@@ -1,6 +1,12 @@
 import streamlit as st
+import google.generativeai as genai
 from collections import defaultdict
 import random
+
+
+# --- API キーの設定 ---
+API_KEY = "AIzaSyD3sy0YJ_eyu4DO-iDGMd50wR_nYSoKL7s"  # ← ここに取得した API キーを入力
+genai.configure(api_key=API_KEY)
 
 def main():
     st.set_page_config(layout="wide")  # ページ幅を広く設定
@@ -51,11 +57,20 @@ def main():
                 pos = coach_input.strip()
                 coach_ranks[pos][name_input] = 0  # 評価がある選手はランク0
 
+    user_input ="この鷺宮スタージョーズの守備ポジションについて、どう思いますか？" 
     if st.button("▶️ マッチング開始"):
         matches = stable_matching_player_priority(player_prefs, coach_ranks)
         st.subheader("📄 マッチング結果")
         for pos in sorted(matches.keys()):
+            user_input = user_input + f" ポジション {pos}: {', '.join(matches[pos])}" 
             st.write(f"ポジション {pos}: {', '.join(matches[pos])}")
+        # ✅ AIモデル指定
+        model = genai.GenerativeModel("gemini-2.5-pro-exp-03-25")  
+        # ✅ generate_content() の修正
+        response = model.generate_content([user_input])
+        # ✅ レスポンスの取得方法を修正
+        st.subheader("🤖 スタジョAI の応答:")
+        st.write(response.text if hasattr(response, 'text') else "応答が取得できませんでした。")  
 
 def stable_matching_player_priority(player_prefs, coach_ranks):
     matches = {str(i): [] for i in range(1, 10)}
