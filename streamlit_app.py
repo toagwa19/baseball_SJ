@@ -65,11 +65,12 @@ def main():
             user_input = user_input + f" ポジション {pos}: {', '.join(matches[pos])}" 
             st.write(f"ポジション {pos}: {', '.join(matches[pos])}")
         # ✅ AIモデル指定
+        st.subheader("🤖 スタジョAI の応答:")
         model = genai.GenerativeModel("gemini-2.5-pro-exp-03-25")  
         # ✅ generate_content() の修正
         response = model.generate_content([user_input])
         # ✅ レスポンスの取得方法を修正
-        st.subheader("🤖 スタジョAI の応答:")
+
         st.write(response.text if hasattr(response, 'text') else "応答が取得できませんでした。")  
 
 def stable_matching_player_priority(player_prefs, coach_ranks):
